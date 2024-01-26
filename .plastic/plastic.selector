@@ -1,0 +1,4 @@
+repository "SLAP FACE@btk1392545@cloud"
+  path "/"
+    br "/main"
+    co "/main"
