@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class HandControl : MonoBehaviour
 {
+    public static HandControl Instance;
+
     public FingerInput inputActions;
 
     [SerializeField]
-    private Transform point , referent , arm;
+    private Transform point , referent , arm , ref_holder , move_ref_point;
 
     [SerializeField]
     private float speed = 10.0f;
@@ -25,9 +28,19 @@ public class HandControl : MonoBehaviour
 
     private InputAction Z, X, C, V, B;
 
+    public GameObject holder;
+
+    public bool isHolder;
+
     private void Awake()
     {
+        Instance = this;
         inputActions = new FingerInput();
+    }
+
+    public void setItemHolder(GameObject g)
+    {
+        holder = g;
     }
 
     private void FixedUpdate()
@@ -35,7 +48,7 @@ public class HandControl : MonoBehaviour
 
         point.position = Vector3.Lerp(point.position , referent.position , 20.0f * Time.deltaTime);
         point.rotation = referent.rotation;
-        referent.Rotate(Input.GetAxisRaw("Vertical") * speed * Time.deltaTime, 0,0);
+        referent.Rotate(Input.GetAxisRaw("Vertical") * speed * Time.deltaTime, 0 , -Input.GetAxisRaw("Yaw") * speed * Time.deltaTime);
         arm.Rotate(0, Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0);
 
     }
@@ -101,8 +114,46 @@ public class HandControl : MonoBehaviour
 
     private void Update()
     {
-        fingerControl();   
+        fingerControl();
+        checkHolder();
+        handDistance();
 
+    }
+
+    void handDistance()
+    {
+        move_ref_point.Translate(0,0, Input.GetAxisRaw("Mouse ScrollWheel") * speed * Time.deltaTime , Space.Self);
+    }
+
+    void checkHolder()
+    {
+        bool[] finger = { b1,b2,b3,b4,b5};
+
+        int len_of_true = finger.Where(f => f).ToArray().Length;
+
+        if (len_of_true >= 3)
+        {
+            if (holder)
+            {
+                holder.transform.SetParent(ref_holder.transform);
+                holder.GetComponent<Rigidbody>().isKinematic = true;
+                isHolder = true;
+            }
+        }
+        else
+        {
+            if (holder) {
+                holder.transform.SetParent(null);
+                holder.GetComponent<Rigidbody>().isKinematic = false;
+                Invoke("setBackIsHolder" , 1.0f);
+            }
+        }
+    }
+
+    void setBackIsHolder()
+    {
+        isHolder = false;
+        holder = null;
     }
 
     void fingerControl()
