@@ -12,6 +12,14 @@ public class HandMouseMove : MonoBehaviour
     [SerializeField] private GameObject finger5;
     [SerializeField] private float armTurnSpeed;
     [SerializeField] private float fingerTurnSpeed;
+
+    [SerializeField] private float minThumbRotate;
+    [SerializeField] private float maxThumbRotate;
+    [SerializeField] private float minOthrFingerRotate;
+    [SerializeField] private float maxOthrFingerRotate;
+    [SerializeField] private float minArmRotate;
+    [SerializeField] private float maxArmRotate;
+
     private Vector2 turn;
 
     //Input
@@ -42,11 +50,11 @@ public class HandMouseMove : MonoBehaviour
         //HardCode
         
         // Debug.Log(arm.transform.localEulerAngles);
-        if (arm.transform.localEulerAngles.x - turn.y < 80 || arm.transform.localEulerAngles.x - turn.y > 280)
+        if (arm.transform.localEulerAngles.x - turn.y < minArmRotate || arm.transform.localEulerAngles.x - turn.y > maxArmRotate)
         {
             arm.transform.eulerAngles = new Vector3(arm.transform.eulerAngles.x - turn.y, arm.transform.eulerAngles.y, 0);
         }
-        if (arm.transform.localEulerAngles.y + turn.x < 80 || arm.transform.localEulerAngles.y + turn.x > 280)
+        if (arm.transform.localEulerAngles.y + turn.x < minArmRotate || arm.transform.localEulerAngles.y + turn.x > maxArmRotate)
         {
             arm.transform.eulerAngles = new Vector3(arm.transform.eulerAngles.x, arm.transform.eulerAngles.y + turn.x, 0);
         }
@@ -59,14 +67,14 @@ public class HandMouseMove : MonoBehaviour
         //Thumb
         if (qPrees)
         {
-            if (Mathf.Abs(finger1.transform.localEulerAngles.z) < 90)
+            if (Mathf.Abs(finger1.transform.localEulerAngles.z) < maxThumbRotate)
             {
                 finger1.transform.Rotate(Vector3.forward * fingerTurnSpeed);
             }
         }
         else
         {
-            if (Mathf.Abs(finger1.transform.localEulerAngles.z) > 5)
+            if (Mathf.Abs(finger1.transform.localEulerAngles.z) > minThumbRotate)
             {
                 finger1.transform.Rotate(Vector3.forward * fingerTurnSpeed * -1);
             }
@@ -75,14 +83,14 @@ public class HandMouseMove : MonoBehaviour
         //Index
         if (wPrees)
         {
-            if (Mathf.Abs(finger2.transform.localEulerAngles.y) > 230)
+            if (Mathf.Abs(finger2.transform.localEulerAngles.y) > minOthrFingerRotate)
             {
                 finger2.transform.Rotate(Vector3.forward * fingerTurnSpeed);
             }
         }
         else
         {
-            if (Mathf.Abs(finger2.transform.localEulerAngles.y) <= 340)
+            if (Mathf.Abs(finger2.transform.localEulerAngles.y) <= maxOthrFingerRotate)
             {
                 finger2.transform.Rotate(Vector3.forward * fingerTurnSpeed * -1);
             }
@@ -91,14 +99,14 @@ public class HandMouseMove : MonoBehaviour
         //Middle
         if (ePrees)
         {
-            if (Mathf.Abs(finger3.transform.localEulerAngles.y) > 230)
+            if (Mathf.Abs(finger3.transform.localEulerAngles.y) > minOthrFingerRotate)
             {
                 finger3.transform.Rotate(Vector3.forward * fingerTurnSpeed);
             }
         }
         else
         {
-            if (Mathf.Abs(finger3.transform.localEulerAngles.y) <= 340)
+            if (Mathf.Abs(finger3.transform.localEulerAngles.y) <= maxOthrFingerRotate)
             {
                 finger3.transform.Rotate(Vector3.forward * fingerTurnSpeed * -1);
             }
@@ -107,14 +115,14 @@ public class HandMouseMove : MonoBehaviour
         //Ring
         if (rPrees)
         {
-            if (Mathf.Abs(finger4.transform.localEulerAngles.y) > 230)
+            if (Mathf.Abs(finger4.transform.localEulerAngles.y) > minOthrFingerRotate)
             {
                 finger4.transform.Rotate(Vector3.forward * fingerTurnSpeed);
             }
         }
         else
         {
-            if (Mathf.Abs(finger4.transform.localEulerAngles.y) <= 340)
+            if (Mathf.Abs(finger4.transform.localEulerAngles.y) <= maxOthrFingerRotate)
             {
                 finger4.transform.Rotate(Vector3.forward * fingerTurnSpeed * -1);
             }
@@ -124,14 +132,14 @@ public class HandMouseMove : MonoBehaviour
         //Little
         if (tPrees)
         {
-            if (Mathf.Abs(finger5.transform.localEulerAngles.y) > 230)
+            if (Mathf.Abs(finger5.transform.localEulerAngles.y) > minOthrFingerRotate)
             {
                 finger5.transform.Rotate(Vector3.forward * fingerTurnSpeed);
             }
         }
         else
         {
-            if (Mathf.Abs(finger5.transform.localEulerAngles.y) <= 340)
+            if (Mathf.Abs(finger5.transform.localEulerAngles.y) <= maxOthrFingerRotate)
             {
                 finger5.transform.Rotate(Vector3.forward * fingerTurnSpeed * -1);
             }

@@ -94,7 +94,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d4e8272c8a8e58943b3521e38d9fd5b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -201,7 +201,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d4e8272c8a8e58943b3521e38d9fd5b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5603101572859029965}
-  - component: {fileID: 8706284989742611839}
+  - component: {fileID: 7001758150535415922}
   m_Layer: 0
   m_Name: PlayerArmAndHand
   m_TagString: Untagged
@@ -273,13 +273,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.072, z: -0.014}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7506645925259274573}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8706284989742611839
+--- !u!114 &7001758150535415922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1339826626496186958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a997ac41db330d4dbc7b7d8edb2a3ec, type: 3}
+  m_Script: {fileID: 11500000, guid: cdd4c345bb6b07d48b057f8420b414a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   arm: {fileID: 2471251528578620457}
@@ -297,8 +297,14 @@ MonoBehaviour:
   finger3: {fileID: 7609090686115733907}
   finger4: {fileID: 3292175380196869191}
   finger5: {fileID: 5335618473204162120}
-  armTurnSpeed: 5
-  fingerTurnSpeed: 10
+  armTurnSpeed: 2
+  fingerTurnSpeed: 5
+  minThumbRotate: 5
+  maxThumbRotate: 90
+  minOthrFingerRotate: 230
+  maxOthrFingerRotate: 340
+  minArmRotate: 80
+  maxArmRotate: 280
 --- !u!1 &1887705380560807732
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +367,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d4e8272c8a8e58943b3521e38d9fd5b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -468,7 +474,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d4e8272c8a8e58943b3521e38d9fd5b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -676,7 +682,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d4e8272c8a8e58943b3521e38d9fd5b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -847,7 +853,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d4e8272c8a8e58943b3521e38d9fd5b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
