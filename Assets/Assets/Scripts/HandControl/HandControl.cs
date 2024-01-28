@@ -32,10 +32,22 @@ public class HandControl : MonoBehaviour
 
     public bool isHolder;
 
+    AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip fuck_you , damage;
+
+    bool oncePlay = false;
+
     private void Awake()
     {
         Instance = this;
         inputActions = new FingerInput();
+    }
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void setItemHolder(GameObject g)
@@ -117,7 +129,28 @@ public class HandControl : MonoBehaviour
         fingerControl();
         checkHolder();
         handDistance();
+        checkFY();
 
+    }
+
+    void checkFY()
+    {
+        if (b1 && b2 && b4 && b5 && !oncePlay)
+        {
+            audioSource.PlayOneShot(fuck_you);
+            oncePlay = true;
+            Invoke("resetOncePlay" , 5.0f);
+        }
+    }
+
+    void resetOncePlay()
+    {
+        oncePlay = false;
+    }
+
+    public void playDamage()
+    {
+        audioSource.PlayOneShot(damage);
     }
 
     void handDistance()

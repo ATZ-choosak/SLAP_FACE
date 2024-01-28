@@ -25,6 +25,7 @@ public class DamageHand : MonoBehaviour
             if (velocityValue > 3.0f)
             {
                 TurnBaseUIHandler.Instance.takeDamageToEnemy((int)(velocityValue * Random.Range(0.1f, 5.0f)));
+                AnimationEnemy.Instance.takeAnimation();
             }
             
         }

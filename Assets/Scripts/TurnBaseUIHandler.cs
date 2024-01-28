@@ -37,7 +37,7 @@ public class TurnBaseUIHandler : MonoBehaviour
     public HealthBar enemyHp;
     public HealthBar playerHp;
 
-    public bool IsStart = false , actionToEnemy = false;
+    public bool IsStart = false , actionToEnemy = false , EnemyToPlayer = false;
 
     float maxPlayerTurnTimer;
 
@@ -140,8 +140,14 @@ public class TurnBaseUIHandler : MonoBehaviour
                 enemyTurnTimer -= Time.deltaTime;
                 enemyTurnTimerNumber.text = enemyTurnTimer.ToString("0");
 
+                if (enemyTurnTimer < 1f)
+                {
+                    AnimationEnemy.Instance.takeAttack();
+                    EnemyToPlayer = true;
+                }
+
                 //When Enemy Turn Timer End
-                if (enemyTurnTimer < 0.01f)
+                if (EnemyToPlayer)
                 {
                     //End The Enemy Turn
                     //Next Turn is Player Turn
@@ -153,16 +159,14 @@ public class TurnBaseUIHandler : MonoBehaviour
 
                     enemyTurnTimerTxt.enabled = false;
                     enemyTurnTimerNumber.enabled = false;
-
-                    playerHp.TakeDamage(Random.Range(8 , 10));
-
-                    enemyTurnTimer = 5f;
+                    enemyTurnTimer = 10f;
                 }
             }
 
             //Player Turn
             else if (!isEnemyTurn)
             {
+                EnemyToPlayer = false;
                 //Player Turn CountDown Timer
                 playerTurnTimerLoad.enabled = true;
                 playerTurnTimerLoad.fillAmount = playerTurnTimer / maxPlayerTurnTimer;
@@ -191,6 +195,12 @@ public class TurnBaseUIHandler : MonoBehaviour
         {
             gameEndTxt.enabled = true;
         }
+    }
+
+    public void EnemyTakeDamageToPlayer()
+    {
+            playerHp.TakeDamage(Random.Range(8, 10));
+            CameraMovement.instance.playDamage();
     }
 
     public void takeDamageToEnemy(int damage)

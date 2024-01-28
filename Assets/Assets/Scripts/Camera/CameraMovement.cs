@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
+    public static CameraMovement instance;
+
     [SerializeField]
     private float minX , maxX , minY , maxY ;
 
@@ -12,10 +14,17 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     private float smooth = 5.0f;
 
+    Animator animator ;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        Application.targetFrameRate = 60;
+        animator = GetComponent<Animator>();
     }
 
 
@@ -28,5 +37,10 @@ public class CameraMovement : MonoBehaviour
         mouseY = Mathf.Clamp(mouseY, minY , maxY);
 
         transform.rotation = Quaternion.Euler(mouseY , mouseX, 0);
+    }
+
+    public void playDamage()
+    {
+        animator.SetTrigger("Damage");
     }
 }
