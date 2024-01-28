@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnBaseUIHandler : MonoBehaviour
 {
+    public static TurnBaseUIHandler Instance;
+
     [SerializeField] private float gameTimer;
     [SerializeField] private float beforeStartTheGameTimer;
     [SerializeField] private TextMeshProUGUI gameTimerTxt;
+    [SerializeField] private TextMeshProUGUI timeBeforeStart;
+    [SerializeField] private Image playerTurnTimerLoad;
 
     private bool isGameEnd = false;
     [SerializeField] private TextMeshProUGUI gameEndTxt;
@@ -29,23 +34,62 @@ public class TurnBaseUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerTurnTimerTxt;
     [SerializeField] private TextMeshProUGUI playerTurnTimerNumber;
 
-    private HealthBar enemyHp;
-    private HealthBar playerHp;
-    
-    void Start()
+    public HealthBar enemyHp;
+    public HealthBar playerHp;
+
+    public bool IsStart = false , actionToEnemy = false;
+
+    float maxPlayerTurnTimer;
+
+    private void Start()
     {
-        enemyHp = GameObject.FindWithTag("Enemy").GetComponentInChildren<HealthBar>();
-        playerHp = GameObject.FindWithTag("Player").GetComponentInChildren<HealthBar>();
+        maxPlayerTurnTimer = playerTurnTimer;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+
+    public void startTurnBase()
+    {
+        IsStart = true;
     }
 
     void Update()
     {
+        if (IsStart)
+        {
+            TurnSystem();
+        }
+        else
+        {
+            gameTimerTxt.gameObject.SetActive(false);
+            enemyHp.gameObject.SetActive(false);
+            playerHp.gameObject.SetActive(false);
+        }
+    }
+
+
+    void TurnSystem()
+    {
         //2 Seconds Before Start The Game
         if (beforeStartTheGameTimer > 0.01f)
+        {
+            timeBeforeStart.text = ((int)(beforeStartTheGameTimer)).ToString();
             beforeStartTheGameTimer -= Time.deltaTime;
+        }
+
         //Start The Game
         else if (!isGameEnd)
         {
+            timeBeforeStart.text = "";
+
+            gameTimerTxt.gameObject.SetActive(true);
+            enemyHp.gameObject.SetActive(true);
+            playerHp.gameObject.SetActive(true);
+
             //Announce Whose Turn
             if (!isAnnounce)
             {
@@ -78,6 +122,8 @@ public class TurnBaseUIHandler : MonoBehaviour
             //Enemy Turn
             if (isEnemyTurn)
             {
+                actionToEnemy = false;
+                playerTurnTimerLoad.enabled = false;
                 //Game Timer Will Count When Enemy's Turn
                 if (gameTimer > 0.01f)
                 {
@@ -108,7 +154,7 @@ public class TurnBaseUIHandler : MonoBehaviour
                     enemyTurnTimerTxt.enabled = false;
                     enemyTurnTimerNumber.enabled = false;
 
-                    playerHp.TakeDamage(8);
+                    playerHp.TakeDamage(Random.Range(8 , 10));
 
                     enemyTurnTimer = 5f;
                 }
@@ -118,11 +164,12 @@ public class TurnBaseUIHandler : MonoBehaviour
             else if (!isEnemyTurn)
             {
                 //Player Turn CountDown Timer
+                playerTurnTimerLoad.enabled = true;
+                playerTurnTimerLoad.fillAmount = playerTurnTimer / maxPlayerTurnTimer;
                 playerTurnTimer -= Time.deltaTime;
-                playerTurnTimerNumber.text = playerTurnTimer.ToString("0");
 
                 //When Player Turn Timer End Or Does An Action
-                if (playerTurnTimer < 0.01f || Action())
+                if (playerTurnTimer < 0.01f || actionToEnemy)
                 {
                     //End The Enemy Turn
                     //Next Turn is Player Turn
@@ -135,7 +182,7 @@ public class TurnBaseUIHandler : MonoBehaviour
                     playerTurnTimerTxt.enabled = false;
                     playerTurnTimerNumber.enabled = false;
 
-                    playerTurnTimer = 20f;
+                    playerTurnTimer = 30f;
                 }
             }
         }
@@ -146,12 +193,22 @@ public class TurnBaseUIHandler : MonoBehaviour
         }
     }
 
+    public void takeDamageToEnemy(int damage)
+    {
+        if (!isEnemyTurn && IsStart)
+        {
+            actionToEnemy = true;
+            enemyHp.TakeDamage(damage);
+        }
+        
+    }
+
     private bool Action()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
             Debug.Log("S preesed!");
-            enemyHp.TakeDamage(10);
+            
             return true;
         }
         else

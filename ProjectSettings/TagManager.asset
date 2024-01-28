@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Item
+  - Box_start
+  - Enemy
+  - head_enemy
   layers:
   - Default
   - TransparentFX

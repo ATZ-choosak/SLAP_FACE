@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider healthSlider;
-    public Slider easeHealthSlider;
+    public Image healthSlider;
+    public Image easeHealthSlider;
     public float maxHealth = 100f;
     public float health;
     private float lerpSpeed = 0.05f;
@@ -18,15 +18,8 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-        if (healthSlider.value != health)
-        {
-            healthSlider.value = health;
-        }
-
-        if (healthSlider.value != easeHealthSlider.value)
-        {
-            easeHealthSlider.value = Mathf.Lerp(easeHealthSlider.value, health, lerpSpeed);
-        }
+        healthSlider.fillAmount = health / maxHealth;
+        easeHealthSlider.fillAmount = Mathf.Lerp(easeHealthSlider.fillAmount , healthSlider.fillAmount , lerpSpeed);
     }
 
     public void TakeDamage(float damage)

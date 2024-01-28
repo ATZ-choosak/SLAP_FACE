@@ -16,6 +16,15 @@ public class KeepItem : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Box_start"))
+        {
+            TurnBaseUIHandler.Instance.startTurnBase();
+            print("test");
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (!HandControl.Instance.isHolder)
